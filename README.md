@@ -1,5 +1,5 @@
 # Table of Contents
-+ Installing
++ [Installing](https://github.com/RagingTiger/CUDAInstall#installing)
     - [macOS](http://github.com/RagingTiger/CUDAInstall#macos)
         + [CUDA-capable GPU](https://github.com/RagingTiger/CUDAInstall#cuda-capable-gpu)
         + [macOS and Xcode Version](https://github.com/RagingTiger/CUDAInstall#macos-and-xcode-version)

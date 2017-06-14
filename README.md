@@ -139,9 +139,9 @@ The newly compiled executable will be in the local directory `bin/x86_64/darwin/
 
 Now that the compiler is working, we need to [run a few tests](http://docs.nvidia.com/cuda/cuda-installation-guide-mac-os-x/index.html#runtime-verification). Execute the recently compiled executable `deviceQuery` as follows:
 ```
-# navigate to /Developer/NVIDIA/CUDA-X.X/samples if not already there
+$ # navigate to /Developer/NVIDIA/CUDA-X.X/samples if not already there
 $ cd /Developer/NVIDIA/CUDA-X.X/samples
-# run deviceQuery
+$ # run deviceQuery
 $ bin/x86_64/darwin/release/deviceQuery
 ```
 This test should output something similar to the image below:
@@ -154,9 +154,9 @@ Result = PASS`. This indicates that a CUDA-capable GPU was found (in this case `
 
 The final test will verify that the system and CUDA-capable GPU are communicating properly. Run the `bandwithTest` as follows:
 ```
-# navigate to /Developer/NVIDIA/CUDA-X.X/samples if not already there
+$ # navigate to /Developer/NVIDIA/CUDA-X.X/samples if not already there
 $ cd /Developer/NVIDIA/CUDA-X.X/samples
-# run bandwidthTest
+$ # run bandwidthTest
 $ bin/x86_64/darwin/release/bandwidthTest
 ```
 This test should have output similar to the below image:

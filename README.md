@@ -6,10 +6,12 @@
         + [NVIDIA CUDA Toolkit]()
             - [Downloading]()
             - [Installing]()
+            - [Verifying]()
     - [Linux](http://github.com/RagingTiger/CUDAInstall#linux)
 
 # Installing
-This section will cover installing CUDA on both `macOS` and `Linux Ubuntu`.
+This section will cover installing CUDA on both `macOS` and `Linux`.
+
 
 ## macOS
 *This section will be referencing the [NVIDIA macOS CUDA Install Guide](http://docs.nvidia.com/cuda/cuda-installation-guide-mac-os-x/index.html#abstract)*
@@ -74,8 +76,97 @@ Compare the output from this command to the entry for the `download file name` f
 #### NVIDIA CUDA Toolkit: Installing
 Now that the toolkit has been downloaded, and the integrity verified, we are ready to [install the CUDA toolkit](http://docs.nvidia.com/cuda/cuda-installation-guide-mac-os-x/index.html#install). When the `.dmg` file is mounted and opened the following series of screens will walk you through the installation process:
 
+**Step 1**: Double click CUDA installer
+<p align="center">
+  <img src="https://github.com/RagingTiger/CUDAInstall/raw/7c06f9f9d62f4422b3750f37dee25db9911abbff/img/macos/NVIDIA_CUDA_Toolkit_install_step1.png"/>
+</p>
 
+**Step 2**: Read Agreement (optional) and click `Accept and Proceed`
+<p align="center">
+  <img src="https://github.com/RagingTiger/CUDAInstall/raw/7c06f9f9d62f4422b3750f37dee25db9911abbff/img/macos/NVIDIA_CUDA_Toolkit_install_step2.png"/>
+</p>
 
+**Step 3**: Select install packages (just leave all checked) and click `Next`
+<p align="center">
+  <img src="https://github.com/RagingTiger/CUDAInstall/raw/7c06f9f9d62f4422b3750f37dee25db9911abbff/img/macos/NVIDIA_CUDA_Toolkit_install_step3.png"/>
+</p>
+
+The installer will now go through and install each of the selected packages in the default locations:
+
++ CUDA Driver: `/Library/Frameworks/CUDA.framework`
+    *This is the interface to the GPU. A Unix compatibility stub that refers to this driver is also installed at* `/usr/local/cuda/lib/libcuda.dylib`
+
++ CUDA Toolkit: `/Developer/NVIDIA/CUDA-X.X`
+    *This is where additional tools (i.e. header files, compilers, debuggers, misc. binaries, etc...) will be installed*
+
++ CUDA Samples: `/Developer/NVIDIA/CUDA-X.X/samples`
+    *This is where various sample programs that use CUDA will be located*
+
+Before moving on to verification of the install, we need to set some [environment variables](https://en.wikipedia.org/wiki/Environment_variable) that will be used by programs, libraries, and applications that depend on the CUDA Driver/Toolkit (*NOTE: `CUDA-X.X` is just a place holder for the actual version of CUDA you have downloaded (e.g CUDA-8.0), do not literally use it.*):
+```
+export PATH=/Developer/NVIDIA/CUDA-X.X/bin${PATH:+:${PATH}}
+export DYLD_LIBRARY_PATH=/Developer/NVIDIA/CUDA-X.X/lib\
+                         ${DYLD_LIBRARY_PATH:+:${DYLD_LIBRARY_PATH}}
+```
+This will only temporarily set the environment variables (which may be ideal for the given situation), but to set them permanently you will need to edit your [shell rc](https://en.wikipedia.org/wiki/Configuration_file) file:
+```
+$ echo "# CUDA Environment Variables" >> ".$(basename $SHELL)rc"
+$ echo "PATH=/Developer/NVIDIA/CUDA-X.X/bin${PATH:+:${PATH}}" >> ".$(basename $SHELL)rc"
+$ echo "DYLD_LIBRARY_PATH=/Developer/NVIDIA/CUDA-X.X/lib${DYLD_LIBRARY_PATH:+:${DYLD_LIBRARY_PATH}}" >> ".$(basename $SHELL)rc"
+```
+This newly formed section of your `shell rc` file will be useful later for organizing other `CUDA` related environment variables used in other frameworks (e.g. [Tensorflow](https://www.tensorflow.org/install/install_mac), and [Darknet](https://pjreddie.com/darknet/install/)).
+
+#### NVIDIA CUDA Toolkit: Verifying
+With every installed and the correct environment variables set, we can begin to [verify everything is working](http://docs.nvidia.com/cuda/cuda-installation-guide-mac-os-x/index.html#verification). First, we [test the driver]() by running the following [kernel extension](https://en.wikipedia.org/wiki/Loadable_kernel_module) reporting command:
+```
+$ kexstat | grep -i cuda
+```
+*Note: this should return output with `com.nvidia.CUDA` somewhere*
+
+Next we will simply make sure the `environment variables` are working and the [nvcc compiler](http://docs.nvidia.com/cuda/cuda-installation-guide-mac-os-x/index.html#compiler-verification) path can be found by the [shell](https://en.wikipedia.org/wiki/Unix_shell). Run the following command:
+```
+$ nvcc -V
+```
+Now lets test the compiler on some samples (e.g. the directory where the CUDA samples were installed: `/Developer/NVIDIA/CUDA-X.X/samples`):
+```
+$ cd /Developer/NVIDIA/CUDA-X.X/samples
+$ sudo make -C 0_Simple/vectorAdd
+$ sudo make -C 0_Simple/vectorAddDrv
+$ sudo make -C 1_Utilities/deviceQuery
+$ sudo make -C 1_Utilities/bandwidthTest
+```
+The newly compiled executable will be in the local directory `bin/x86_64/darwin/release`.
+
+Now that the compiler is working, we need to [run a few tests](http://docs.nvidia.com/cuda/cuda-installation-guide-mac-os-x/index.html#runtime-verification). Execute the recently compiled executable `deviceQuery` as follows:
+```
+# navigate to /Developer/NVIDIA/CUDA-X.X/samples if not already there
+$ cd /Developer/NVIDIA/CUDA-X.X/samples
+# run deviceQuery
+$ bin/x86_64/darwin/release/deviceQuery
+```
+This test should output something similar to the image below:
+<p align="center">
+  <img src="https://github.com/RagingTiger/CUDAInstall/raw/fe29d6ad34ea0cb8271b1916a56891bf76ac9ed6/img/macos/NVIDIA_CUDA_Toolkit_verify_deviceQuery.png"/>
+</p>
+
+While this test gives an assortment of information, the necessary information, confirming the GPU was found and CUDA-capable, is at the bottom: `deviceQuery, CUDA Driver = CUDART, CUDA Driver Version = 8.0, CUDA Runtime Version = 8.0, NumDevs = 1, Device0 = GeForce GT 750M
+Result = PASS`. This indicates that a CUDA-capable GPU was found (in this case `Device0`) and it is working.
+
+The final test will verify that the system and CUDA-capable GPU are communicating properly. Run the `bandwithTest` as follows:
+```
+# navigate to /Developer/NVIDIA/CUDA-X.X/samples if not already there
+$ cd /Developer/NVIDIA/CUDA-X.X/samples
+# run bandwidthTest
+$ bin/x86_64/darwin/release/bandwidthTest
+```
+This test should have output similar to the below image:
+<p align="center">
+  <img src="https://github.com/RagingTiger/CUDAInstall/raw/fe29d6ad34ea0cb8271b1916a56891bf76ac9ed6/img/macos/NVIDIA_CUDA_Toolkit_verify_bandwidthTest.png"/>
+</p>
+
+The necessary information is at the bottom: `Result = PASS`
+
+With these two tests successfully passed, you have finally completed the installation of CUDA for macOS. Now you can move on to installing your favorite framework(s).
 
 ## Linux
 `TODO`

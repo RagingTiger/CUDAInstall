@@ -65,16 +65,15 @@ At this point, having verified the `hardware and software` of your macOS system,
   <img src="https://github.com/RagingTiger/CUDAInstall/raw/7883f32be0e06fbf0a18bdec07f457cc56ff2c87/img/NVIDIA_CUDA_Toolkit_dwnld_step4.png"/>
 </p>
 
-Now you can click the green download button, and you begin downloading the `NVIDIA CUDA Toolkit` to your downloads folder. Once the [.dmg](https://en.wikipedia.org/wiki/Apple_Disk_Image) file has finished downloading, you will want to confirm the integrity of the file by verifying the checksum. If you follow the guide's instructions, you can use the following command to check the file:
+Now you can click the green download button and begin downloading the `NVIDIA CUDA Toolkit` [disk image](https://en.wikipedia.org/wiki/Apple_Disk_Image) to your downloads folder. Once the file has finished downloading, you will want to confirm the integrity of the file by verifying the checksum. If you follow the guide's instructions, you can use the following command to check the file:
 ```
 $ openssl md5 <path/to/file>
 ```
 Compare the output from this command to the entry for the `download file name` found on [this page](http://developer2.download.nvidia.com/compute/cuda/8.0/secure/Prod2/docs/sidebar/md5sum.txt?Ueb-ED3JLFmOvTGZl1tyoYj442TeiYjkuj7BC8aS3ryEECUEI11WSBwcdfO_7q8JCRHeuNvbRJgcilBGUzFP5PyYS8Fa33NdK5PpXGJ7MFhrU1QkHmZPuPi8byi4XEw6oGyPzqSuHaP6scPPJSU4KbXXr_w) (*the entry will have the same name as the file you downloaded*). The two checksums should match.
 
 #### NVIDIA CUDA Toolkit: Installing
-Now that the toolkit has been downloaded, and the integrity verified, we are ready to [install the CUDA toolkit](http://docs.nvidia.com/cuda/cuda-installation-guide-mac-os-x/index.html#install).
+Now that the toolkit has been downloaded, and the integrity verified, we are ready to [install the CUDA toolkit](http://docs.nvidia.com/cuda/cuda-installation-guide-mac-os-x/index.html#install). When the `.dmg` file is mounted and opened the following series of screens will walk you through the installation process:
 
-`TODO`
 
 
 

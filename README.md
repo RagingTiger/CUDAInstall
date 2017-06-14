@@ -1,6 +1,3 @@
-# About
-General info about installing CUDA on macOS and Linux
-
 # Table of Contents
 + Installing
     - [macOS](http://github.com/RagingTiger/CUDAInstall#macos)

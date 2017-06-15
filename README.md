@@ -102,6 +102,7 @@ The installer will now go through and install each of the selected packages in t
 + CUDA Samples: `/Developer/NVIDIA/CUDA-X.X/samples`
     *This is where various sample programs that use CUDA will be located*
 
+##### CUDA Environment Variables
 Before moving on to verification of the install, we need to set some [environment variables](https://en.wikipedia.org/wiki/Environment_variable) that will be used by programs, libraries, and applications that depend on the CUDA Driver/Toolkit (*NOTE: `CUDA-X.X` is just a place holder for the actual version of CUDA you have downloaded (e.g CUDA-8.0), do not literally use it.*):
 ```
 export PATH=/Developer/NVIDIA/CUDA-X.X/bin${PATH:+:${PATH}}
